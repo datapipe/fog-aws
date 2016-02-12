@@ -9,7 +9,7 @@ module Fog
           request({
               'Action' => 'AddTags',
               'ResourceId' => resource_id,
-              'TagsList' => tags,
+              'TagsList' => [*tags],
               :parser => Fog::Parsers::CloudTrail::AWS::AddTags.new
             })
         end

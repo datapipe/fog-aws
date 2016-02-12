@@ -23,40 +23,39 @@ module Fog
         end
 
         def destroy
-          requires :name
-          service.delete_trail(name)
+          requires_one :name, :trail_arn
+          service.delete_trail(trail_arn || name)
           true
         end
 
         def status
-          requires :name
-          service.get_trail_status(name)
+          requires_one :name, :trail_arn
+          service.get_trail_status(trail_arn || name)
         end
 
         def start_logging
-          requires :name
-          service.start_logging(name)
+          requires_one :name, :trail_arn
+          service.start_logging(trail_arn || name)
           true
         end
 
         def stop_logging
-          requires :name
-          service.stop_logging(name)
+          requires_one :name, :trail_arn
+          service.stop_logging(trail_arn || name)
           true
         end
 
         def save
-          requires :name
+          requires_one :name, :trail_arn
           requires :s3_bucket_name
-          requires :s3_key_prefix
-          requires :include_global
 
-          data           =
-              if persisted?
-                service.update_trail(name, s3_bucket_name, s3_key_prefix, sns_topic_name, include_global).body
-              else
-                service.create_trail(name, s3_bucket_name, s3_key_prefix, sns_topic_name, include_global).body
-              end
+          options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
+          options.delete_if { |key, value| value.nil? }
+          data = if persisted?
+                   service.update_trail(name, options).body
+                 else
+                   service.create_trail(name, s3_bucket_name, options).body
+                 end
           new_attributes = data.reject { |key, value| key == 'requestId' }
           merge_attributes(new_attributes)
         end
