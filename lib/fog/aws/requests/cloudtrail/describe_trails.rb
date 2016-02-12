@@ -5,17 +5,17 @@ module Fog
       class Real
         require 'fog/aws/parsers/cloudtrail/describe_trails'
 
-        def describe_trails(options = {})
+        def describe_trails(options = nil)
           request({
               'Action' => 'DescribeTrails',
               :parser => Fog::Parsers::CloudTrail::AWS::DescribeTrails.new
-            }.merge(options))
+            }.merge(options || {}))
         end
 
       end
 
       class Mock
-        def describe_trails(trail_names)
+        def describe_trails(options = nil)
           Fog::Mock.not_implemented
         end
       end
