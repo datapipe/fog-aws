@@ -6,12 +6,12 @@ module Fog
         require 'fog/aws/parsers/cloudtrail/add_tags'
 
         def add_tags(resource_id, tags)
-          request({
+          serialized_keys = Fog::AWS.serialize_keys('TagsList', [*tags])
+          request(serialized_keys.merge({
               'Action' => 'AddTags',
               'ResourceId' => resource_id,
-              'TagsList' => [*tags],
               :parser => Fog::Parsers::CloudTrail::AWS::AddTags.new
-            })
+            }))
         end
       end
 

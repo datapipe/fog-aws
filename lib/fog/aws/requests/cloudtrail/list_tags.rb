@@ -7,11 +7,11 @@ module Fog
         require 'fog/aws/parsers/cloudtrail/list_tags'
 
         def list_tags(resource_ids, options = nil)
-          request({
+          serialized_keys = Fog::AWS.serialize_keys('ResourceIdList', [*resource_ids])
+          request(serialized_keys.merge({
               'Action' => 'ListTags',
-              'ResourceIdList' => [*resource_ids],
               :parser => Fog::Parsers::CloudTrail::AWS::ListTags.new
-            }.merge(options || {}) )
+            }).merge(options || {}) )
         end
       end
 

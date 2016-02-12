@@ -11,7 +11,8 @@ module Fog
             @in_tag_list = false
           end
 
-          def start_element(name)
+          def start_element(name, attrs = [])
+            super
             case name
               when 'TagsList'
                 @in_tag_list = true
