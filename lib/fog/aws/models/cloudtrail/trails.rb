@@ -14,7 +14,7 @@ module Fog
         end
 
         def get(identity, options = nil)
-          data = service.describe_trails({'TrailNameList' => identity}.merge(options || {})).body['trailList'].first
+          data = service.describe_trails(Fog::AWS.serialize_keys('trailNameList', [*identity]).merge(options || {}) ).body['trailList'].first
           new(data.merge(:is_persisted => true)) unless data.nil?
         end
       end

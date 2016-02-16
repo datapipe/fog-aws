@@ -6,10 +6,11 @@ module Fog
         require 'fog/aws/parsers/cloudtrail/describe_trails'
 
         def describe_trails(options = nil)
-          request({
-              'Action' => 'DescribeTrails',
-              :parser => Fog::Parsers::CloudTrail::AWS::DescribeTrails.new
-            }.merge(options || {}))
+          params = (options || {}).merge({
+                                             'Action' => 'DescribeTrails',
+                                             :parser  => Fog::Parsers::CloudTrail::AWS::DescribeTrails.new
+                                         })
+          request(params)
         end
 
       end
