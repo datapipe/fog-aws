@@ -4,7 +4,7 @@ module Fog
   module AWS
     class CloudTrail
       class Trail < Fog::Model
-        identity  :trail_arn, :aliases => 'TrailARN'
+        identity :trail_arn, :aliases => 'TrailARN'
         attribute :name, :aliases => 'Name'
         attribute :include_global_service_events, :aliases => 'IncludeGlobalServiceEvents', :type => :boolean
         attribute :s3_bucket_name, :aliases => 'S3BucketName'
@@ -51,11 +51,11 @@ module Fog
 
           options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
           options.delete_if { |key, value| value.nil? }
-          data = if persisted?
-                   service.update_trail(name, options).body
-                 else
-                   service.create_trail(name, s3_bucket_name, options).body
-                 end
+          data           = if persisted?
+                             service.update_trail(name, options).body
+                           else
+                             service.create_trail(name, s3_bucket_name, options).body
+                           end
           new_attributes = data.reject { |key, value| key == 'requestId' }
           merge_attributes(new_attributes)
         end
