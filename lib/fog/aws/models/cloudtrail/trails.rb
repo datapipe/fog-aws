@@ -7,14 +7,14 @@ module Fog
 
         model Fog::AWS::CloudTrail::Trail
 
-        def all
-          data = service.describe_trails.body['trailList']
+        def all(options = nil)
+          data = service.describe_trails(options).body['trailList']
           pdata = data.map{|d| d.merge(:is_persisted => true)} if data
           load(pdata)
         end
 
-        def get(identity)
-          data = service.describe_trails('TrailNameList' => identity).body['trailList'].first
+        def get(identity, options = nil)
+          data = service.describe_trails(Fog::AWS.serialize_keys('trailNameList', [*identity]).merge(options || {}) ).body['trailList'].first
           new(data.merge(:is_persisted => true)) unless data.nil?
         end
       end

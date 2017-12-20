@@ -16,10 +16,16 @@ module Fog
       request :start_logging
       request :stop_logging
       request :update_trail
+      request :list_tags
+      request :add_tags
+      request :remove_tags
+
 
       model_path 'fog/aws/models/cloudtrail'
       model :trail
+      model :tag
       collection :trails
+      collection :tags
 
       class Mock
         def initialize(options={})

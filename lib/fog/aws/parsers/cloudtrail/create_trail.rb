@@ -9,8 +9,18 @@ module Fog
 
           def end_element(name)
             case name
-              when 'CloudWatchLogsLogGroupArn', 'CloudWatchLogsRoleArn', 'IncludeGlobalServiceEvents', 'Name', 'S3BucketName', 'S3KeyPrefix', 'SnsTopicName'
-                @response['Trail'][name] = value
+              when 'CloudWatchLogsLogGroupArn',
+                   'CloudWatchLogsRoleArn',
+                   'IncludeGlobalServiceEvents',
+                   'IsMultiRegionTrail',
+                   'KmsKeyId',
+                   'LogFileValidationEnabled',
+                   'Name',
+                   'S3BucketName',
+                   'S3KeyPrefix',
+                   'SnsTopicName',
+                   'TrailARN'
+                  @response['Trail'][name] = value
               when 'RequestId'
                 @response[name] = value
             end
